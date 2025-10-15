@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>My First Map Markers</title>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.css" rel="stylesheet">
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    #map {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="map"></div>
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoibWFyaXBhYiIsImEiOiJjbWc1bmhpZHkwNmNjMmxwdzBpYXVmdWNiIn0.lGkMik2qc8aVGZFAr84yeA';
+    const map = new mapboxgl.Map({
+      container: 'map',
+      // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
+      style: 'mapbox://styles/mapbox/outdoors-v12',
+      center: [-122.26926941547762, 37.797572448340965],
+      zoom: 10
+    });
+
+    map.on('load', () => {
+      map.addSource('my-places', {
+        'type': 'geojson',
+        'data': {
+          'type': 'FeatureCollection',
+          'features': [
+            {
+              'type': 'Feature',
+              'geometry': {
+                'type': 'Point',
+                'coordinates': [-122.26926941547762, 37.797572448340965],
+              },
+              "properties": {
+                'name': "rose foundation new voices are rising",
+                'description': "I was in this program",
+              }
+            },
+            {
+              'type': 'Feature',
+              'geometry': {
+                'type': 'Point',
+                'coordinates': [-122.12340681163876, 37.70197948426557],
+              },
+              "properties": {
+                'name': "theo's cheesteak shop ",
+                'description': "I was working here over the summer is still is",
+              }
+            },
+            {
+              'type': 'Feature',
+              'geometry': {
+                'type': 'Point',
+                'coordinates': [-122.18157577103676, 37.72014052026777],
+              },
+              "properties": {
+                'name': "costco wholesale",
+                'description': "i bought grocery here alot over the summer",
+              }
+            }
+          ]
+        }
+      });
+
+      map.addLayer({
+        'id': 'my-places',
+        'type': 'circle',
+        'source': 'my-places',
+        'paint': {
+          'circle-radius': 6,
+          'circle-color': '#B42222'
+        },
+        'filter': ['==', '$type', 'Point']
+      });
+    });
+
+    map.addInteraction('popup', {
+      type: 'click',
+      target: { layerId: 'my-places' },
+      handler: (e) => {
+        // Copy coordinates array.
+        const coordinates = e.feature.geometry.coordinates.slice();
+        const name = e.feature.properties.name;
+        const description = e.feature.properties.description;
+
+        new mapboxgl.Popup()
+          .setLngLat(coordinates)
+          .setHTML("<br><strong>" + name + "</strong><br/>" + description)
+          .addTo(map);
+      }
+    });
+
+  </script>
+
+</body>
+
+</html>
