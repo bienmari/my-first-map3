@@ -11,10 +11,6 @@ this code i reallt like that is the main characters because its where i worked a
 Exaggerating the elevation profile makes the map more exciting.
 
 
-Users can...
-1. **Toggle through all the maps**, by tapping the `1` `2` `3` `4` `5` numbers at the bottom of the screen. 
-
-2. **See detailed itineraties** (including timestamps and different modes of transit) by clicking the "Details" link.
 
 Here's a demo:
 
